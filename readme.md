@@ -4,5 +4,20 @@
 
 ### The striketool was created to make the Alesis strike module accessible for troubleshooting from Linux.
 
+## Usage
+
+```
+
+ striketool <port> list|openrw|openro|close
+
+ e.g. ./striketool hw:2,0,0 openrw
+
+   list - list midi capable alesis devices
+   openrw - enable internal access in 'content update' mode
+   openro - enable internal access in read only mode
+   close - reset strike module in standard mode
+
+```
+
 ## License
 [gpl-2.0](./license.txt)
