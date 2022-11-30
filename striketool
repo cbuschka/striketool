@@ -1,0 +1,35 @@
+#!/bin/bash
+
+PORT=${1:-hw:2,0,0}
+
+case $2 in
+  list)
+    amidi -l | grep -i alesis
+    ;;
+  openrw)
+    amidi --port=${PORT} --send-hex='f000000e480e023001f7'
+    ;;
+  openro)
+    amidi --port=${PORT} --send-hex='f000000e480e330301f7'
+    ;;
+  close)
+    amidi --port=${PORT} --send-hex='f000000e480e310301f7'
+    ;;
+  *)
+    echo
+    echo " $0 <port> list|openrw|openro|close"
+    echo
+    echo " e.g. $0 hw:2,0,0 openrw"
+    echo
+    echo "   list - list midi capable alesis devices"
+    echo "   openrw - enable internal access in 'content update' mode"
+    echo "   openro - enable internal access in read only mode"
+    echo "   close - reset strike module in standard mode"
+    echo
+    ;;
+esac
+
+
+
+
+
