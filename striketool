@@ -1,35 +1,69 @@
 #!/bin/bash
 
-PORT=${1:-hw:2,0,0}
+function printUsageAndExit() {
+  local EXIT_CODE=${1:-1}
+  echo
+  echo " $0 [ --port=<port> ] list|openrw|openro|close"
+  echo
+  echo " e.g. $0 --port=hw:2,0,0 openrw"
+  echo
+  echo "   list - list midi capable alesis devices"
+  echo "   openrw - enable internal access in 'content update' mode"
+  echo "   openro - enable internal access in read only mode"
+  echo "   close - reset strike module in standard mode"
+  echo
+  exit 1
+}
 
-case $2 in
+function findPort() {
+  local PORT=$1
+  if [ -z "${PORT}" ]; then
+    PORT=$(amidi -l | grep -i "Alesis Strike MIDI" | sed -E 's#^.*(hw:[^\s]+)\s.*$#\1#g')
+  fi
+
+  if [ -z "${PORT}" ]; then
+    echo "No Alesis Strike module found."
+    exit 1
+  fi
+  echo -n "${PORT}"
+  return 0
+}
+
+function list() {
+  amidi -l | grep -i "Alesis Strike MIDI"
+}
+
+### main
+[ $# -eq 0 ] && printUsageAndExit 1
+
+for ARG in "$@"; do
+  case ${ARG} in
+    \-\-port\=*)
+      PORT=${ARG#--port=}
+      ;;
+    *)
+      COMMAND=${ARG}
+      ;;
+  esac
+done
+
+case ${COMMAND} in
+  help|-h|--help)
+    printUsageAndExit 0
+    ;;
   list)
-    amidi -l | grep -i alesis
+    list
     ;;
   openrw)
-    amidi --port=${PORT} --send-hex='f000000e480e023001f7'
+    amidi --port=$(findPort "${PORT}") --send-hex='f000000e480e023001f7'
     ;;
   openro)
-    amidi --port=${PORT} --send-hex='f000000e480e330301f7'
+    amidi --port=$(findPort "${PORT}") --send-hex='f000000e480e330301f7'
     ;;
   close)
-    amidi --port=${PORT} --send-hex='f000000e480e310301f7'
+    amidi --port=$(findPort "${PORT}") --send-hex='f000000e480e310301f7'
     ;;
   *)
-    echo
-    echo " $0 <port> list|openrw|openro|close"
-    echo
-    echo " e.g. $0 hw:2,0,0 openrw"
-    echo
-    echo "   list - list midi capable alesis devices"
-    echo "   openrw - enable internal access in 'content update' mode"
-    echo "   openro - enable internal access in read only mode"
-    echo "   close - reset strike module in standard mode"
-    echo
+    printUsageAndExit 1
     ;;
 esac
-
-
-
-
-
