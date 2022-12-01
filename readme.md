@@ -4,6 +4,12 @@
 
 ### The striketool was created to make the Alesis strike drum module accessible on Linux for troubleshooting purposes.
 
+## Prerequisites
+
+* Linux
+* amidi from package alsa-utils installed
+* Alesis strike drum module attached via usb
+
 ## Usage
 
 ```
