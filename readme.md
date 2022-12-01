@@ -8,9 +8,9 @@
 
 ```
 
- striketool <port> list|openrw|openro|close
+ striketool [ --port=<port> ] list|openrw|openro|close
 
- e.g. ./striketool hw:2,0,0 openrw
+ e.g. ./striketool --port=hw:2,0,0 openrw
 
    list - list midi capable alesis devices
    openrw - enable internal access in 'content update' mode
