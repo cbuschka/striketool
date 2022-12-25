@@ -16,11 +16,19 @@ public class FilesystemResolver implements ResourceResolver {
 
     @Override
     public List<File> findAll(String name) {
-        File file = new File(baseDir, name);
+        File file = new File(baseDir, normalize(name));
         if (file.exists() && file.isFile()) {
             return Collections.singletonList(file);
         }
 
         return Collections.emptyList();
+    }
+
+    private String normalize(String name) {
+        if (!File.separator.equals("/")) {
+            return name.replace("/", File.separator);
+        }
+
+        return name;
     }
 }
