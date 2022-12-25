@@ -1,30 +1,33 @@
 package com.github.cbuschka.striketool.cli;
 
+import com.github.cbuschka.striketool.core.Striketool;
 import com.github.cbuschka.striketool.core.alesis.instrument.Instrument;
 import com.github.cbuschka.striketool.core.instrument.InstrumentGenerator;
 import com.github.cbuschka.striketool.core.instrument.InstrumentSpec;
+import com.github.cbuschka.striketool.core.io.ResourceResolver;
 import com.github.cbuschka.striketool.core.player.SamplePlayer;
 import com.github.cbuschka.striketool.core.player.SamplePlayerListener;
 import com.github.cbuschka.striketool.core.processing.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Component
 @Slf4j
 public class PlaySubCommand {
-    private File instrumentFile;
 
-    public PlaySubCommand(File instrumentFile) {
-        this.instrumentFile = instrumentFile;
-    }
+    @Autowired
+    private Striketool striketool;
 
     @SneakyThrows
-    public void run() {
+    public void run(String instrumentFilename) {
+
+        ResourceResolver resourceResolver = striketool.getResourceResolver();
+        File instrumentFile = resourceResolver.findOrFail(instrumentFilename);
 
         InstrumentSpec instrumentSpec = InstrumentSpec.load(instrumentFile);
 
