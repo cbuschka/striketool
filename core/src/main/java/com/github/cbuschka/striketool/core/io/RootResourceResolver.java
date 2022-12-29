@@ -1,7 +1,5 @@
 package com.github.cbuschka.striketool.core.io;
 
-import lombok.var;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

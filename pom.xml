@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
         <maven.build.timestamp.format>dd.MM.yyyy HH:mm:ss</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
         <spring-boot.version>2.6.2</spring-boot.version>
@@ -24,6 +24,7 @@
     <modules>
         <module>core</module>
         <module>cli</module>
+        <module>ui</module>
     </modules>
     <build>
         <pluginManagement>
@@ -131,6 +132,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>cli</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
