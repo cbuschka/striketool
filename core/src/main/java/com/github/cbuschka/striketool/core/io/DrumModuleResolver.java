@@ -1,6 +1,5 @@
 package com.github.cbuschka.striketool.core.io;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +14,22 @@ public class DrumModuleResolver implements ResourceResolver {
     }
 
     @Override
-    public List<File> findAll(String name) {
-        List<File> allResources = new ArrayList<>();
+    public List<Resource> getRoots() {
+        List<Resource> allResources = new ArrayList<>();
+        if (userCardResolver != null) {
+            allResources.addAll(userCardResolver.getRoots());
+        }
+
+        if (internalResolver != null) {
+            allResources.addAll(internalResolver.getRoots());
+        }
+
+        return allResources;
+    }
+
+    @Override
+    public List<Resource> findAll(String name) {
+        List<Resource> allResources = new ArrayList<>();
         if (userCardResolver != null) {
             allResources.addAll(userCardResolver.findAll(name));
         }

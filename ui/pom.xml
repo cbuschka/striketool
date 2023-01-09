@@ -35,5 +35,9 @@
             <groupId>com.github.cbuschka.striketool</groupId>
             <artifactId>core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-swing</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -4,6 +4,7 @@ import com.github.cbuschka.striketool.core.Striketool;
 import com.github.cbuschka.striketool.core.alesis.instrument.Instrument;
 import com.github.cbuschka.striketool.core.instrument.InstrumentGenerator;
 import com.github.cbuschka.striketool.core.instrument.InstrumentSpec;
+import com.github.cbuschka.striketool.core.io.Resource;
 import com.github.cbuschka.striketool.core.io.ResourceResolver;
 import com.github.cbuschka.striketool.core.player.SamplePlayer;
 import com.github.cbuschka.striketool.core.player.SamplePlayerListener;
@@ -27,7 +28,7 @@ public class PlaySubCommand {
     public void run(String instrumentFilename) {
 
         ResourceResolver resourceResolver = striketool.getResourceResolver();
-        File instrumentFile = resourceResolver.findOrFail(instrumentFilename);
+        Resource instrumentFile = resourceResolver.findOrFail(instrumentFilename);
 
         InstrumentSpec instrumentSpec = InstrumentSpec.load(instrumentFile);
 
