@@ -1,4 +1,4 @@
-package striketool.ui.dialogs.session_window;
+package striketool.ui.dialogs.app_window;
 
 public class Barrier {
     private final Object LOCK = new Object();

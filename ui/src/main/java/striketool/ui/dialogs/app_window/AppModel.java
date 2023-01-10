@@ -1,9 +1,8 @@
-package striketool.ui.dialogs.session_window;
+package striketool.ui.dialogs.app_window;
 
 import striketool.ui.module.DrumModuleService;
 import striketool.ui.module.Mode;
 import striketool.ui.module.Simulator;
-import striketool.ui.swing.EDTUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
