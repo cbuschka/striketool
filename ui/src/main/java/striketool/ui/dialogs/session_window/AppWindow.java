@@ -1,11 +1,10 @@
 package striketool.ui.dialogs.session_window;
 
+import lombok.SneakyThrows;
 import striketool.ui.module.Mode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -21,6 +20,7 @@ public class AppWindow {
     private StatusBar statusBar;
     private JMenuItem startSimulator;
     private JMenuItem stopSimulator;
+    private ImagePane imagePane;
 
     public AppWindow(AppController controller, AppModel model) {
         this.model = model;
@@ -36,8 +36,10 @@ public class AppWindow {
         statusBar.setMessage(drumModuleAvailable ? "Module available." : "Module NOT available.");
         startSimulator.setEnabled(!drumModuleAvailable && !model.getSimulator().isAvailable());
         stopSimulator.setEnabled(model.getSimulator().isAvailable());
+        imagePane.setEnabled(drumModuleAvailable);
     }
 
+    @SneakyThrows
     private void initUI() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.frame = new JFrame("Striketool");
@@ -61,6 +63,8 @@ public class AppWindow {
 
         initStatusBar(contentArea, BorderLayout.SOUTH);
 
+        imagePane = new ImagePane("/module.png");
+        frame.getContentPane().add(imagePane, BorderLayout.CENTER);
     }
 
     private void initStatusBar(Container contentArea, Object constraints) {

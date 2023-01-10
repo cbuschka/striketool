@@ -1,5 +1,7 @@
 package striketool.ui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ public class AppMain implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        FlatLaf.setup(new FlatDarkLaf());
 
         AppModel appModel = new AppModel(drumModuleService, simulator, appWorker);
         AppController appControler = new AppController(appModel);
