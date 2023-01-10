@@ -45,6 +45,11 @@ public class Simulator implements DrumModuleAdapter {
         return available;
     }
 
+    @Override
+    public String getName() {
+        return "Simulator";
+    }
+
     public void stop() {
         if (!this.available) {
             return;

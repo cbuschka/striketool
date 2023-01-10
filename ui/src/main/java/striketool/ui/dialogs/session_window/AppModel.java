@@ -51,6 +51,10 @@ public class AppModel {
         this.listeners.add(l);
     }
 
+    public String getDrumModuleName() {
+        return drumModuleService.getName();
+    }
+
     public Mode getDrumModuleMode() {
         return drumModuleService.getMode();
     }

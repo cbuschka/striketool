@@ -33,7 +33,11 @@ public class AppWindow {
 
     private void updateFromModel() {
         boolean drumModuleAvailable = model.getDrumModuleMode() != Mode.NONE;
-        statusBar.setMessage(drumModuleAvailable ? "Module available." : "Module NOT available.");
+        if (drumModuleAvailable) {
+            statusBar.setMessage("Module (" + model.getDrumModuleName() + ") available.");
+        } else {
+            statusBar.setMessage("Module NOT available.");
+        }
         startSimulator.setEnabled(!drumModuleAvailable && !model.getSimulator().isAvailable());
         stopSimulator.setEnabled(model.getSimulator().isAvailable());
         imagePane.setEnabled(drumModuleAvailable);

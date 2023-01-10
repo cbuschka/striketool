@@ -64,6 +64,14 @@ public class DrumModuleService {
         }
     }
 
+    public String getName() {
+        if (activeAdapter != null) {
+            return activeAdapter.getName();
+        }
+
+        return "";
+    }
+
     public interface Listener {
         void moduleStatusChanged(boolean available);
     }
