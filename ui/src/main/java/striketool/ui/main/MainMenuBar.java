@@ -1,19 +1,14 @@
 package striketool.ui.main;
 
 import lombok.extern.slf4j.Slf4j;
+import striketool.ui.util.UIUtils;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
-import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
 
 @Slf4j
 public class MainMenuBar extends JMenuBar {
+    private final JCheckBoxMenuItem realMenuItem;
     private JCheckBoxMenuItem simulatorMenuItem;
     private JMenuItem rescanMenuItem;
     private JMenuItem exitMenuItem;
@@ -26,21 +21,33 @@ public class MainMenuBar extends JMenuBar {
         openMenuItem = new JMenuItem("Open...");
         fileMenu.add(openMenuItem);
         fileMenu.add(new JSeparator());
-        exitMenuItem = new JMenuItem("Exit");
+        exitMenuItem = new JMenuItem("Quit");
         fileMenu.add(exitMenuItem);
         add(fileMenu);
 
         JMenu moduleMenu = new JMenu("Module");
         moduleMenu.add(new JSeparator());
+        realMenuItem = new JCheckBoxMenuItem("Real");
+        moduleMenu.add(realMenuItem);
+        realMenuItem.addActionListener(e -> {
+            UIUtils.runAsyncInBackground(() -> {
+                if (sessionModel.isRealPresent() && !sessionModel.isRealEnabled()) {
+                    sessionModel.enableReal();
+                } else {
+                    sessionModel.disableReal();
+                }
+            });
+        });
         simulatorMenuItem = new JCheckBoxMenuItem("Simulator");
         moduleMenu.add(simulatorMenuItem);
-        simulatorMenuItem.addChangeListener(e -> {
-            boolean enabled = simulatorMenuItem.getState();
-            if (enabled) {
-                sessionModel.enableSimulator();
-            } else {
-                sessionModel.disableSimulator();
-            }
+        simulatorMenuItem.addActionListener(e -> {
+            UIUtils.runAsyncInBackground(() -> {
+                if (sessionModel.isSimulatorPresent() && !sessionModel.isSimulatorEnabled()) {
+                    sessionModel.enableSimulator();
+                } else {
+                    sessionModel.disableSimulator();
+                }
+            });
         });
         rescanMenuItem = new JMenuItem("Rescan...");
         rescanMenuItem.addActionListener((ev) -> {
@@ -55,6 +62,7 @@ public class MainMenuBar extends JMenuBar {
         add(helpMenu);
 
         sessionModel.addListener(() -> SwingUtilities.invokeLater(this::updateView));
+        updateView();
     }
 
 
@@ -69,6 +77,8 @@ public class MainMenuBar extends JMenuBar {
     void updateView() {
         rescanMenuItem.setEnabled(sessionModel.isDrumModulePresent());
         simulatorMenuItem.setEnabled(sessionModel.isSimulatorPresent());
-        simulatorMenuItem.setState(sessionModel.isSimulatorEnabled());
+        simulatorMenuItem.setSelected(sessionModel.isSimulatorEnabled());
+        realMenuItem.setEnabled(sessionModel.isRealPresent());
+        realMenuItem.setSelected(sessionModel.isRealEnabled());
     }
 }

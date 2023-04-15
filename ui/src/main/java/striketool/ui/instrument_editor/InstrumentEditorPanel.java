@@ -1,5 +1,8 @@
 package striketool.ui.instrument_editor;
 
+import striketool.ui.util.GBC;
+import striketool.ui.lib.LabelPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,28 +11,40 @@ public class InstrumentEditorPanel extends JPanel {
 
     public InstrumentEditorPanel(InstrumentEditorModel model) {
         this.model = model;
-        setLayout(new FlowLayout());
+        setLayout(new GridBagLayout());
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
+        mainPanel.setBorder(BorderFactory.createTitledBorder("Sample"));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
         mainPanel.add(new Knob("Level", 0, 99));
-        mainPanel.add(new Knob("Pan", 0, 99));
+        mainPanel.add(new Knob("Pan", -50, 50));
         mainPanel.add(new Knob("Decay", 0, 99));
-        add(mainPanel);
+        mainPanel.add(new LabelPanel<>("Loop mode", new JComboBox<>(new String[]{"Single play", "Loop on"})));
+        add(mainPanel, GBC.at(0, 0).gridh(2).build());
 
         JPanel filterPanel = new JPanel();
-        filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.LINE_AXIS));
-        filterPanel.add(new JRadioButton("Lopass"));
-        filterPanel.add(new JRadioButton("Hipass"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Filter"));
+        filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
+        filterPanel.add(new LabelPanel<>("Type", new JComboBox<>(new String[]{"Lopass", "Hipasss"})));
         filterPanel.add(new Knob("Cutoff", 0, 99));
-        add(filterPanel);
+        add(filterPanel, GBC.at(1, 0).build());
 
         JPanel tunePanel = new JPanel();
-        tunePanel.setLayout(new BoxLayout(tunePanel, BoxLayout.LINE_AXIS));
+        tunePanel.setBorder(BorderFactory.createTitledBorder("Tuning"));
+        tunePanel.setLayout(new BoxLayout(tunePanel, BoxLayout.PAGE_AXIS));
         tunePanel.add(new Knob("Semitone", 0, 99));
         tunePanel.add(new Knob("Fine", 0, 99));
-        add(tunePanel);
+        add(tunePanel, GBC.at(1, 1).build());
 
-
+        JPanel mappingPanel = new JPanel();
+        mappingPanel.setBorder(BorderFactory.createTitledBorder("Range Mapping"));
+        mappingPanel.setLayout(new FlowLayout());
+        mappingPanel.add(new JList<>());
+        JPanel mappingDetailsPanel = new JPanel();
+        mappingDetailsPanel.setLayout(new FlowLayout());
+        mappingDetailsPanel.setBorder(BorderFactory.createTitledBorder("Samples"));
+        mappingDetailsPanel.add(new JList<>());
+        mappingPanel.add(mappingDetailsPanel);
+        add(mappingPanel, GBC.at(0, 2).size(2, 1).weighty(10.0d).build());
     }
 }

@@ -4,11 +4,11 @@ import io.github.cbuschka.strike4j.instrument.Instrument;
 import io.github.cbuschka.strike4j.instrument.InstrumentReader;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import striketool.ui.Barrier;
+import striketool.ui.util.Barrier;
+import striketool.ui.util.UIUtils;
 import striketool.ui.instrument_editor.InstrumentEditorModel;
 import striketool.ui.instrument_editor.InstrumentEditorPanel;
 
-import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -46,7 +46,7 @@ public class MainController {
     public void openInstrumentFile(File file) {
         try (InstrumentReader rd = new InstrumentReader(file.getName(), new FileInputStream(file));) {
             Instrument instrument = rd.read(false);
-            SwingUtilities.invokeLater(() -> {
+            UIUtils.runAsyncOnUIThread(() -> {
                 InstrumentEditorPanel editor = new InstrumentEditorPanel(new InstrumentEditorModel(instrument));
                 mainWindow.addEditor(file.getName(), editor);
             });

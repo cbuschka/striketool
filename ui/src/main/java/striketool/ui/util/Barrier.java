@@ -1,4 +1,4 @@
-package striketool.ui;
+package striketool.ui.util;
 
 public class Barrier {
     private final Object LOCK = new Object();

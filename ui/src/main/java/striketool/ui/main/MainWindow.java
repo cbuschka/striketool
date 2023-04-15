@@ -19,8 +19,8 @@ import java.io.FileInputStream;
 public class MainWindow extends JFrame {
     private SessionModel sessionModel;
     private MainMenuBar menuBar;
-
     private JTabbedPane tabbedPane;
+    private JSplitPane splitPane;
 
     public MainWindow(SessionModel sessionModel) {
         this.sessionModel = sessionModel;
@@ -30,11 +30,20 @@ public class MainWindow extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         buildMenu();
         // buildToolbar();
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        getContentPane().add(splitPane, BorderLayout.CENTER);
+        buildSideBar();
         buildFooterBar();
         this.tabbedPane = new JTabbedPane();
-        getContentPane().add(this.tabbedPane, BorderLayout.CENTER);
+        splitPane.setRightComponent(this.tabbedPane);
+        splitPane.setDividerLocation(200);
         this.sessionModel.addListener(() -> SwingUtilities.invokeLater(MainWindow.this::updateView));
         updateView();
+    }
+
+    private void buildSideBar() {
+        SideBar sideBar = new SideBar();
+        splitPane.setLeftComponent(sideBar);
     }
 
     private void buildFooterBar() {
@@ -91,7 +100,10 @@ public class MainWindow extends JFrame {
     }
 
     public void addEditor(String title, InstrumentEditorPanel editor) {
-        this.tabbedPane.add(title, editor);
+        this.tabbedPane.add((String) null, editor);
+        int index = this.tabbedPane.indexOfComponent(editor);
+        TabComponent tabComponent = new TabComponent(title, this.tabbedPane);
+        this.tabbedPane.setTabComponentAt(index, tabComponent);
     }
 
     private void buildToolbar() {

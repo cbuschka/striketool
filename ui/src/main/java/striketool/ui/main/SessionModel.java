@@ -1,10 +1,12 @@
 package striketool.ui.main;
 
+import lombok.extern.slf4j.Slf4j;
 import striketool.backend.components.drummodule.DrumModule;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class SessionModel {
     private List<Listener> listeners = new ArrayList<>();
 
@@ -29,15 +31,38 @@ public class SessionModel {
     }
 
     public void enableSimulator() {
-        if(isSimulatorEnabled()) {
+        if (!isSimulatorPresent()) {
+            throw new IllegalStateException("Simulator not present.");
+        }
+        if (isSimulatorEnabled()) {
             return;
         }
-        appModel.getSimulator().ifPresent((s) -> drumModule = s);
+        drumModule = appModel.getSimulator();
         fireModelChanged();
     }
 
     public void disableSimulator() {
-        if(isSimulatorEnabled()) {
+        if (!isSimulatorPresent() || !isSimulatorEnabled()) {
+            return;
+        }
+        drumModule = null;
+        fireModelChanged();
+    }
+
+
+    public void enableReal() {
+        if (!isRealPresent()) {
+            throw new IllegalStateException("Real not present.");
+        }
+        if (isRealEnabled()) {
+            return;
+        }
+        drumModule = appModel.getReal();
+        fireModelChanged();
+    }
+
+    public void disableReal() {
+        if (!isRealPresent() || !isRealEnabled()) {
             return;
         }
         drumModule = null;
@@ -48,12 +73,19 @@ public class SessionModel {
         return drumModule != null;
     }
 
+    public boolean isRealPresent() {
+        return appModel.getReal().isPresent();
+    }
+
+    public boolean isRealEnabled() {
+        return drumModule == appModel.getReal();
+    }
+
     public boolean isSimulatorPresent() {
         return appModel.getSimulator().isPresent();
     }
 
     public boolean isSimulatorEnabled() {
-        return appModel.getSimulator().isPresent()
-                && appModel.getSimulator().get() == drumModule;
+        return appModel.getSimulator() == drumModule;
     }
 }

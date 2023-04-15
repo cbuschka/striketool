@@ -14,7 +14,9 @@ public class Main {
         MainController mainController = new MainController();
         SwingUtilities.invokeLater(mainController::open);
         SwingUtilities.invokeLater(() -> {
-            mainController.openInstrumentFile(new File("/home/conni/work/conni/github/cbuschka/strike4j/src/test/resources/NewHHCymbal5x1.sin"));
+            mainController.openInstrumentFile(new File("NewHHCymbal3x2a.sin"));
+            mainController.openInstrumentFile(new File("NewHHCymbal3x2b.sin"));
+            mainController.openInstrumentFile(new File("NewHHCymbal3x2c.sin"));
         });
 
         log.info("Waiting for main window to close.");
