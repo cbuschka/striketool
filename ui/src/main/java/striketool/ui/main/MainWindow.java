@@ -17,33 +17,19 @@ import java.io.FileInputStream;
 
 @Slf4j
 public class MainWindow extends JFrame {
-    private SessionModel sessionModel;
     private MainMenuBar menuBar;
     private JTabbedPane tabbedPane;
-    private JSplitPane splitPane;
 
-    public MainWindow(SessionModel sessionModel) {
-        this.sessionModel = sessionModel;
+    public MainWindow() {
         setSize(800, 600);
         setTitle("Striketool");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout());
         buildMenu();
-        // buildToolbar();
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        getContentPane().add(splitPane, BorderLayout.CENTER);
-        buildSideBar();
         buildFooterBar();
         this.tabbedPane = new JTabbedPane();
-        splitPane.setRightComponent(this.tabbedPane);
-        splitPane.setDividerLocation(200);
-        this.sessionModel.addListener(() -> SwingUtilities.invokeLater(MainWindow.this::updateView));
+        getContentPane().add(this.tabbedPane, BorderLayout.CENTER);
         updateView();
-    }
-
-    private void buildSideBar() {
-        SideBar sideBar = new SideBar();
-        splitPane.setLeftComponent(sideBar);
     }
 
     private void buildFooterBar() {
@@ -56,7 +42,7 @@ public class MainWindow extends JFrame {
     }
 
     private void buildMenu() {
-        menuBar = new MainMenuBar(sessionModel);
+        menuBar = new MainMenuBar();
         menuBar.addFileOpenClickedListener(this::fileOpenClicked);
         menuBar.addExitClickedListener(this::exitClicked);
         setJMenuBar(menuBar);

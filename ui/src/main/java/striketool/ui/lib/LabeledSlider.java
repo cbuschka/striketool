@@ -1,11 +1,10 @@
-package striketool.ui.instrument_editor;
+package striketool.ui.lib;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class Knob extends JPanel {
-    public Knob(String label, int min, int max) {
+public class LabeledSlider extends JPanel {
+    public LabeledSlider(String label, int min, int max) {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), label, 4, 0, null, null));
 
         setLayout(new BorderLayout());

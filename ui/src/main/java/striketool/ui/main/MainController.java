@@ -25,7 +25,7 @@ public class MainController {
 
     public synchronized void open() {
         barrier.add();
-        this.mainWindow = new MainWindow(new SessionModel(new AppModel()));
+        this.mainWindow = new MainWindow();
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
