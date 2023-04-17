@@ -1,5 +1,8 @@
 package striketool.ui.module;
 
+import java.io.File;
+import java.util.List;
+
 public interface DrumModuleAdapter {
 
     String getName();
@@ -8,5 +11,5 @@ public interface DrumModuleAdapter {
 
     Mode getMode();
 
-
+    List<String> search(SearchPhrase searchPhrase);
 }

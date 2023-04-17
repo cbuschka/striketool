@@ -2,7 +2,9 @@ package striketool.ui.module;
 
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DrumModuleService {
@@ -74,5 +76,13 @@ public class DrumModuleService {
 
     public interface Listener {
         void moduleStatusChanged(boolean available);
+    }
+
+    public List<String> search(SearchPhrase searchPhrase) {
+        if (activeAdapter != null) {
+            return activeAdapter.search(searchPhrase);
+        }
+
+        return Collections.emptyList();
     }
 }
