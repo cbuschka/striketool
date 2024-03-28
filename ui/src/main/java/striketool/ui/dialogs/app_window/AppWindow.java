@@ -1,7 +1,7 @@
 package striketool.ui.dialogs.app_window;
 
 import lombok.SneakyThrows;
-import striketool.ui.module.Mode;
+import striketool.backend.module.Mode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +60,7 @@ public class AppWindow {
         this.frame.setSize(screenSize.width * 3 / 4, screenSize.height * 3 / 4);
         this.frame.setLocation((screenSize.width - this.frame.getWidth()) / 2, (screenSize.height - this.frame.getHeight()) / 2);
         this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.frame.setMinimumSize(new Dimension(400, 300));
 
         initMenuBar();
 

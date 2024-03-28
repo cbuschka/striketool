@@ -1,6 +1,5 @@
-package striketool.ui.module;
+package striketool.backend.module;
 
-import java.io.File;
 import java.util.List;
 
 public interface DrumModuleAdapter {

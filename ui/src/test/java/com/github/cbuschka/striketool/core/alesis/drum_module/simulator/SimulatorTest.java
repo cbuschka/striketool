@@ -1,7 +1,7 @@
 package com.github.cbuschka.striketool.core.alesis.drum_module.simulator;
 
 import org.junit.jupiter.api.Test;
-import striketool.ui.module.Simulator;
+import striketool.backend.module.Simulator;
 
 class SimulatorTest {
 

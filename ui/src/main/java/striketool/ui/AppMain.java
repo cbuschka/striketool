@@ -9,8 +9,8 @@ import striketool.ui.dialogs.app_window.AppController;
 import striketool.ui.dialogs.app_window.AppModel;
 import striketool.ui.dialogs.app_window.AppWindow;
 import striketool.ui.dialogs.app_window.AppWorker;
-import striketool.ui.module.DrumModuleService;
-import striketool.ui.module.Simulator;
+import striketool.backend.module.DrumModuleService;
+import striketool.backend.module.Simulator;
 
 @Component
 public class AppMain implements CommandLineRunner {

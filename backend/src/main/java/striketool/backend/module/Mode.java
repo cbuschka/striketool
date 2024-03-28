@@ -1,4 +1,4 @@
-package striketool.ui.module;
+package striketool.backend.module;
 
 public enum Mode {
     NONE,

@@ -3,8 +3,8 @@ package striketool.ui.conf;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import striketool.ui.module.DrumModuleService;
-import striketool.ui.module.Simulator;
+import striketool.backend.module.DrumModuleService;
+import striketool.backend.module.Simulator;
 
 import java.util.Arrays;
 
