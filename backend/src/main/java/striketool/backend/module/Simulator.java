@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -12,6 +13,7 @@ import java.util.zip.ZipFile;
 
 public class Simulator implements DrumModuleAdapter {
 
+    private Path tempDir;
     private boolean available = false;
 
     private Mode mode = Mode.STANDARD;
@@ -31,18 +33,25 @@ public class Simulator implements DrumModuleAdapter {
 
     @SneakyThrows
     private void exportFiles() {
-        String internalCardZipFilename = System.getProperty("striketool.ui.module.Simulator.zipFile", "./simulator.zip");
+        if (this.tempDir == null || !this.tempDir.toFile().isDirectory()) {
+            this.tempDir = Files.createTempDirectory("striketool");
+        }
+        String internalCardZipFilename = System.getProperty("striketool.emulator.file", "./simulator.zip");
         this.internalCardZipFile = new ZipFile(internalCardZipFilename);
-        Path tempDir = Files.createTempDirectory("striketool");
-        this.userCardRootDir = new File(tempDir.toFile(), "userCard");
+        this.userCardRootDir = new File(this.tempDir.toFile(), "userCard");
         this.userCardRootDir.mkdirs();
     }
 
     @SneakyThrows
     private void deleteFiles() {
-        Files.delete(this.userCardRootDir.toPath());
+        if (this.tempDir != null && this.tempDir.toFile().isDirectory()) {
+            FileUtils.deleteTree(this.tempDir.toFile());
+        }
+        this.tempDir = null;
         this.userCardRootDir = null;
-        this.internalCardZipFile.close();
+        if (this.internalCardZipFile != null) {
+            this.internalCardZipFile.close();
+        }
     }
 
     @Override
@@ -80,5 +89,14 @@ public class Simulator implements DrumModuleAdapter {
         // search user card
 
         return entries;
+    }
+
+    @Override
+    public Iterable<String> listSamples() {
+        return internalCardZipFile
+                .stream()
+                .filter((e) -> e.getName().contains("/Samples/") && e.getName().endsWith(".wav"))
+                .map(ZipEntry::getName)
+                .collect(Collectors.toList());
     }
 }

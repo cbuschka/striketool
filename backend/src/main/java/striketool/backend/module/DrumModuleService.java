@@ -35,7 +35,9 @@ public class DrumModuleService {
     }
 
     public void stop() {
-
+        for(DrumModuleAdapter adapter : adapters){
+            adapter.stop();
+        }
     }
 
     public boolean isAvailable() {

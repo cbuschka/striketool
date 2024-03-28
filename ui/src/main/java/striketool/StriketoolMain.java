@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class StriketoolMain {
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", Boolean.FALSE.toString());
-        SpringApplication.run(StriketoolMain.class, args);
+        SpringApplication.run(StriketoolMain.class, args).close();
+        System.exit(0);
     }
 }

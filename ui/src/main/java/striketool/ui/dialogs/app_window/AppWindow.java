@@ -103,6 +103,7 @@ public class AppWindow {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
+
         JMenuItem fileExitMenuItem = new JMenuItem("Exit");
         fileExitMenuItem.addActionListener(actionEvent -> {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
