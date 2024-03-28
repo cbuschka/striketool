@@ -104,11 +104,16 @@ public class FsBlobStore {
         private final File file;
 
         @Override
-        public String name() {
+        public String getName() {
             return file.getName();
         }
 
-        public int versions() {
+        public String name(int i) {
+            String[] parts = getName().split("/");
+            return parts[i];
+        }
+
+        public int getVersionCount() {
             File[] versionFiles = file.listFiles();
             if (versionFiles == null) {
                 return 0;

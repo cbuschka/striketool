@@ -14,10 +14,10 @@ public class Repository {
     public void stop() {
     }
 
-    interface Entry {
-        String name();
+    public interface Entry {
+        String getName();
 
-        int versions();
+        int getVersionCount();
     }
 
     public Iterable<Entry> listInstruments() {

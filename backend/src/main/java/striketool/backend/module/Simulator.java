@@ -1,5 +1,7 @@
 package striketool.backend.module;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -92,11 +94,26 @@ public class Simulator implements DrumModuleAdapter {
     }
 
     @Override
-    public Iterable<String> listSamples() {
+    public Iterable<Entry> listSamples() {
         return internalCardZipFile
                 .stream()
-                .filter((e) -> e.getName().contains("/Samples/") && e.getName().endsWith(".wav"))
+                .filter((e) -> e.getName().contains("Samples/") && e.getName().endsWith(".wav"))
                 .map(ZipEntry::getName)
+                .map(n -> n.substring(n.indexOf("Samples/") + "Samples/".length()))
+                .map(n -> new EntryImpl(Type.SAMPLE, n, true))
                 .collect(Collectors.toList());
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    class EntryImpl implements Entry {
+        private final Type type;
+        private final String name;
+        private final boolean internal;
+
+        @Override
+        public int getVersionCount() {
+            return 1;
+        }
     }
 }

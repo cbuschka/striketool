@@ -14,9 +14,19 @@ public interface DrumModuleAdapter {
 
     List<String> search(SearchPhrase searchPhrase);
 
-    Iterable<String> listSamples();
+    Iterable<Entry> listSamples();
 
     void start();
 
     void stop();
+
+     interface Entry {
+        Type getType();
+
+        String getName();
+
+        boolean isInternal();
+
+        int getVersionCount();
+    }
 }

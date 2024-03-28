@@ -2,11 +2,17 @@ package striketool.ui.dialogs.app_window;
 
 import lombok.SneakyThrows;
 import striketool.backend.module.Mode;
+import striketool.backend.usecases.sync.DiffEntry;
+import striketool.backend.usecases.sync.SyncTask;
+import striketool.ui.dialogs.sync_view.SyncStateModel;
+import striketool.ui.dialogs.sync_view.SyncView;
+import striketool.ui.swing.EDTUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 public class AppWindow {
 
@@ -67,9 +73,12 @@ public class AppWindow {
         Container contentArea = initContentArea();
 
         initStatusBar(contentArea, BorderLayout.SOUTH);
-
+        initTabbedPanel(frame.getContentPane(), BorderLayout.CENTER);
         imagePane = new ImagePane("/module.png");
+        /*
         frame.getContentPane().add(imagePane, BorderLayout.CENTER);
+
+         */
     }
 
     private void initStatusBar(Container contentArea, Object constraints) {
@@ -104,6 +113,12 @@ public class AppWindow {
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
+        JMenuItem fileSyncMenuItem = new JMenuItem("Sync");
+        fileSyncMenuItem.addActionListener(actionEvent -> {
+            openSync();
+        });
+        fileMenu.add(fileSyncMenuItem);
+
         JMenuItem fileExitMenuItem = new JMenuItem("Exit");
         fileExitMenuItem.addActionListener(actionEvent -> {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -121,6 +136,19 @@ public class AppWindow {
         toolsMenu.add(stopSimulator);
 
         return menuBar;
+    }
+
+    private void openSync() {
+        SyncStateModel model = new SyncStateModel();
+        SyncTask syncTask = new SyncTask(this.model.getSimulator(), this.model.getRepository(), new SyncTask.Handler() {
+            @Override
+            public void diffSeen(List<DiffEntry> diffEntries) {
+                EDTUtils.runAsync(() -> model.add(diffEntries));
+            }
+        });
+        this.model.getAppWorker().runAsync(syncTask);
+        SyncView syncView = new SyncView(model);
+        this.tabbedPane.add("Sync", syncView);
     }
 
     public void open() {

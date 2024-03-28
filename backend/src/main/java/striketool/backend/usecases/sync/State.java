@@ -1,0 +1,8 @@
+package striketool.backend.usecases.sync;
+
+public enum State {
+    OK,
+    ADDED_ON_DRUM_MODULE, CHANGED_ON_DRUM_MODULE, DELETED_ON_DRUM_MODULE,
+    ADDED_IN_REPOSITORY, CHANGED_IN_REPOSITORY, DELETED_IN_REPOSITORY;
+
+}
